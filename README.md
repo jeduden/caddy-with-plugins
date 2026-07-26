@@ -5,9 +5,12 @@ published to `ghcr.io/jeduden/caddy-with-plugins`.
 
 ## Embedded versions
 
-Every tag is built from a fully pinned [`Dockerfile`](./Dockerfile), so a
-given tag's contents are reproducible rather than dependent on whatever
-`xcaddy` happened to resolve on the build date.
+Every tag is built from a [`Dockerfile`](./Dockerfile) with explicit Caddy,
+plugin, and base-image versions, so the contents are determined by the pinned
+versions below rather than by whatever `xcaddy` happened to resolve on the
+build date. (The base images are pinned by version tag, not by digest, so this
+is not bit-for-bit reproducibility — a Docker Hub tag re-push can change the
+underlying layers.)
 
 | Component | Version |
 | --- | --- |
@@ -27,7 +30,8 @@ Look for the `io.caddy.version`, `io.caddy.plugin.caddy-crowdsec-bouncer` and
 
 ## Bumping versions
 
-Edit the pinned versions in [`Dockerfile`](./Dockerfile) (the `xcaddy build`
-argument, both `--with` plugin refs, the two `FROM caddy:...` tags, and the
-`LABEL` block) and update the table above. Publishing a new release tag builds
-and pushes the image via [`.github/workflows/build.yml`](./.github/workflows/build.yml).
+Edit the pinned versions in [`Dockerfile`](./Dockerfile) — the two
+`FROM caddy:...` tags (which also set the Caddy version `xcaddy` builds), the
+three `--with` plugin refs, and the `io.caddy.*` `LABEL` values — then update
+the table above. Publishing a new release tag builds and pushes the image via
+[`.github/workflows/build.yml`](./.github/workflows/build.yml).
